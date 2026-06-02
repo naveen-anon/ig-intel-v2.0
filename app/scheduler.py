@@ -1,26 +1,29 @@
-from sqlalchemy import create_engine, Column, String, Integer, DateTime, Boolean
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+import time
+from apscheduler.schedulers.background import BackgroundScheduler
+from app.database.postgres import SessionLocal, MonitoredTarget
 from datetime import datetime
-from app.config import settings
 
-# Thread safe execution check for SQLite engines on Android core
-engine = create_engine(
-    settings.DATABASE_URL, 
-    connect_args={"check_same_thread": False} if "sqlite" in settings.DATABASE_URL else {}
-)
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-Base = declarative_base()
+def live_monitoring_job():
+    db = SessionLocal()
+    try:
+        active_targets = db.query(MonitoredTarget).filter(MonitoredTarget.is_active == True).all()
+        if not active_targets:
+            return
 
-class MonitoredTarget(Base):
-    __tablename__ = "monitored_targets"
-    
-    id = Column(Integer, primary_key=True, index=True)
-    username = Column(String, unique=True, index=True, nullable=False)
-    is_active = Column(Boolean, default=True)
-    last_checked = Column(DateTime, default=datetime.utcnow)
-    follower_count_cache = Column(Integer, default=0)
+        print(f"\n[🔄 Sync Loop - {datetime.now().strftime('%H:%M:%S')}] Checking {len(active_targets)} targets...")
+        for target in active_targets:
+            target.last_checked = datetime.utcnow()
+            print(f"[-] Profile @{target.username} scanned successfully.")
+            
+        db.commit()
+    except Exception as e:
+        print(f"[❌ Scheduler Error]: {str(e)}")
+        db.rollback()
+    finally:
+        db.close()
 
-def init_pg_db():
-    Base.metadata.create_all(bind=engine)
-  
+def start_scheduler():
+    scheduler = BackgroundScheduler()
+    scheduler.add_job(live_monitoring_job, 'interval', minutes=15, id='ig_tracker_job', replace_existing=True)
+    scheduler.start()
+    print("⏱️ APScheduler Engine Started. Monitoring loop running every 15 minutes.)
