@@ -1,1 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IG-Intel V2 - Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex">
+
+    <!-- Sidebar -->
+    <aside class="w-64 bg-slate-900 border-r border-slate-800 p-6 flex flex-col gap-6 hidden md:flex">
+        <div class="flex items-center gap-3">
+            <i class="fa-solid fa-spider text-cyan-400 text-2xl"></i>
+            <h1 class="text-xl font-bold tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">IG-INTEL V2</h1>
+        </div>
+        <nav class="flex flex-col gap-2">
+            <a href="#" class="flex items-center gap-3 px-4 py-2.5 rounded-lg bg-cyan-950/50 text-cyan-400 border border-cyan-800/50 font-medium transition">
+                <i class="fa-solid fa-chart-pie"></i> Dashboard
+            </a>
+            <a href="/docs" target="_blank" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-400 hover:bg-slate-800/60 hover:text-slate-200 transition">
+                <i class="fa-solid fa-code"></i> Swagger API Docs
+            </a>
+        </nav>
+        <div class="mt-auto pt-6 border-t border-slate-800 flex items-center gap-2 text-xs text-slate-500">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            Termux Core Engine Active
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col min-w-0">
+        <header class="h-16 border-b border-slate-800 bg-slate-900/50 backdrop-blur px-6 flex items-center justify-between">
+            <div class="text-sm font-semibold text-slate-400">Target Intel Overview</div>
+            <div>
+                <span class="text-xs bg-slate-800 text-slate-300 px-2.5 py-1 rounded-full border border-slate-700">Loop: 15m</span>
+            </div>
+        </header>
+
+        <div class="p-6 flex flex-col gap-6 max-w-7xl w-full mx-auto">
+            <!-- Counters -->
+            <section class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div class="bg-slate-900 border border-slate-800 p-5 rounded-xl flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Total Targets</p>
+                        <h3 id="stat-total" class="text-2xl font-bold mt-1 text-slate-100">0</h3>
+                    </div>
+                    <div class="w-12 h-12 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400"><i class="fa-solid fa-users text-xl"></i></div>
+                </div>
+                <div class="bg-slate-900 border border-slate-800 p-5 rounded-xl flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Active Monitoring</p>
+                        <h3 id="stat-active" class="text-2xl font-bold mt-1 text-emerald-400">0</h3>
+                    </div>
+                    <div class="w-12 h-12 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400"><i class="fa-solid fa-eye text-xl"></i></div>
+                </div>
+                <div class="bg-slate-900 border border-slate-800 p-5 rounded-xl flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">System Status</p>
+                        <h3 class="text-xl font-bold mt-2 text-cyan-400">SQLite Active</h3>
+                    </div>
+                    <div class="w-12 h-12 rounded-lg bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400"><i class="fa-solid fa-database text-xl"></i></div>
+                </div>
+            </section>
+
+            <!-- Operational Workspace -->
+            <section class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Deployment Panel -->
+                <div class="bg-slate-900 border border-slate-800 p-5 rounded-xl flex flex-col gap-4 h-fit">
+                    <h2 class="text-lg font-bold text-slate-200 flex items-center gap-2"><i class="fa-solid fa-user-plus text-cyan-400"></i> Deploy New Tracker</h2>
+                    <form id="addTargetForm" class="flex flex-col gap-3">
+                        <div>
+                            <label class="text-xs font-semibold text-slate-400 block mb-1.5">Instagram Username</label>
+                            <div class="relative">
+                                <span class="absolute left-3 top-2.5 text-slate-500">@</span>
+                                <input type="text" id="usernameInput" required placeholder="target_profile" class="w-full bg-slate-950 border border-slate-800 rounded-lg pl-8 pr-3 py-2 text-sm focus:outline-none focus:border-cyan-500 text-slate-200 transition">
+                            </div>
+                        </div>
+                        <button type="submit" class="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 font-medium py-2 rounded-lg text-sm transition shadow-lg shadow-cyan-950/50 flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-satellite-dish"></i> Start Tracking
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Live Stream View -->
+                <div class="lg:col-span-2 bg-slate-900 border border-slate-800 rounded-xl overflow-hidden flex flex-col">
+                    <div class="p-5 border-b border-slate-800 flex justify-between items-center bg-slate-900/50">
+                        <h2 class="text-lg font-bold text-slate-200 flex items-center gap-2"><i class="fa-solid fa-list-check text-cyan-400"></i> Active Intel Targets</h2>
+                        <button onclick="fetchTargets()" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-1.5 rounded-lg border border-slate-700 transition flex items-center gap-1.5">
+                            <i class="fa-solid fa-rotate"></i> Refresh
+                        </button>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse text-sm">
+                            <thead>
+                                <tr class="bg-slate-950/60 text-slate-400 border-b border-slate-800 font-semibold">
+                                    <th class="p-4">Target Profile</th>
+                                    <th class="p-4">Cached Followers</th>
+                                    <th class="p-4">Last Sync</th>
+                                    <th class="p-4">Status</th>
+                                    <th class="p-4 text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="targetTableBody" class="divide-y divide-slate-800/50 text-slate-300">
+                                <!-- Dynamic items rendered here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script>
+        async function fetchTargets() {
+            try {
+                const response = await fetch('/monitor/list');
+                const targets = await response.json();
+                const tableBody = document.getElementById('targetTableBody');
+                tableBody.innerHTML = '';
+                
+                if(!targets || targets.length === 0) {
+                    tableBody.innerHTML = `<tr><td colspan="5" class="p-8 text-center text-slate-500 italic"><i class="fa-solid fa-box-open mr-2"></i> No profiles currently under surveillance.</td></tr>`;
+                    document.getElementById('stat-total').innerText = '0';
+                    document.getElementById('stat-active').innerText = '0';
+                    return;
+                }
+
+                let activeCount = 0;
+                targets.forEach(target => {
+                    if(target.is_active) activeCount++;
+                    const date = target.last_checked ? new Date(target.last_checked).toLocaleString() : 'Never';
+                    
+                    tableBody.innerHTML += `
+                        <tr class="hover:bg-slate-800/30 transition">
+                            <td class="p-4 font-medium text-slate-200 flex items-center gap-2">
+                                <i class="fa-brands fa-instagram text-pink-500"></i> @${target.username}
+                            </td>
+                            <td class="p-4 font-mono text-cyan-400">${target.follower_count_cache ? target.follower_count_cache.toLocaleString() : '0'}</td>
+                            <td class="p-4 text-xs text-slate-400">${date}</td>
+                            <td class="p-4">
+                                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-medium ${target.is_active ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'}">
+                                    <span class="w-1.5 h-1.5 rounded-full ${target.is_active ? 'bg-emerald-400 animate-pulse' : 'bg-rose-400'}"></span>
+                                    ${target.is_active ? 'Monitoring' : 'Stopped'}
+                                </span>
+                            </td>
+                            <td class="p-4 text-right">
+                                ${target.is_active ? 
+                                `<button onclick="stopMonitoring('${target.username}')" class="text-xs bg-rose-950/40 text-rose-400 hover:bg-rose-900/50 border border-rose-900/30 px-2.5 py-1 rounded transition">Stop</button>` : 
+                                `<button onclick="startMonitoring('${target.username}')" class="text-xs bg-emerald-950/40 text-emerald-400 hover:bg-emerald-900/50 border border-emerald-900/30 px-2.5 py-1 rounded transition">Resume</button>`}
+                            </td>
+                        </tr>
+                    `;
+                });
+
+                document.getElementById('stat-total').innerText = targets.length;
+                document.getElementById('stat-active').innerText = activeCount;
+            } catch (error) {
+                console.error("Error:", error);
+            }
+        }
+
+        document.getElementById('addTargetForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const input = document.getElementById('usernameInput');
+            const username = input.value.trim();
+            if(!username) return;
+
+            try {
+                const response = await fetch(`/monitor/add/${username}`, { method: 'POST' });
+                if(response.ok) {
+                    input.value = '';
+                    fetchTargets();
+                }
+            } catch (error) { console.error(error); }
+        });
+
+        async function stopMonitoring(username) {
+            await fetch(`/monitor/stop/${username}`, { method: 'POST' });
+            fetchTargets();
+        }
+
+        async function startMonitoring(username) {
+            await fetch(`/monitor/add/${username}`, { method: 'POST' });
+            fetchTargets();
+        }
+
+        window.onload = fetchTargets;
+    </script>
+</body>
+                                                                                               </html>
 
