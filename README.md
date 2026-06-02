@@ -46,4 +46,10 @@ ig-intel-v2/
 ### 🛠️ Installation & Deployment
 **Follow these commands inside your local environment (Termux, Linux, or PC) to fire up the system:**
 
+*1. Clone the Workspace*
+
+```bash
+git clone https://github.com/naveen-anon/ig-intel-v2.0.git
+cd ig-intel-v2.0
+```
 
