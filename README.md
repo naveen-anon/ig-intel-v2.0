@@ -58,3 +58,9 @@ Ensure you have Python 3 installed. Run the following requirement installation p
 ```bash
 pip install -r requirements.txt
 ```
+***3. Initialize the Surveillance Engine***
+*Boot up your backend worker and frontend service using the master launcher file:*
+
+```bash
+python3 run.py
+```
