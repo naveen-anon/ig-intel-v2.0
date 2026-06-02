@@ -86,3 +86,28 @@ Once the console logs state `🚀 IG-Intel V2 System Engine Online & Monitoring 
 | **POST**| `/monitor/stop/{username}` | Halts active tracking loops for a specified target profile. |
 
 ---
+
+
+---
+
+## 🤝 Developer Metadata
+
+| Field | Detail |
+| :--- | :--- |
+| **Developer Name** | Naveen Khatri |
+| **Instagram** | [@coding_with_naveen](https://instagram.com/coding_with_naveen) |
+| **GitHub Profile** | [@naveen-anon](https://github.com/naveen-anon) |
+| **Repository Link** | [ig-intel-v2.0](https://github.com/naveen-anon/ig-intel-v2.0.git) |
+
+---
+
+## ⚖️ Legal Disclaimer
+
+> [!WARNING]
+> **Educational & Research Purpose Only**
+> This tool is developed strictly for educational purposes, security analysis, and legitimate open-source intelligence (OSINT) research. 
+> 
+> * The developer (**Naveen Khatri**) is absolutely **not responsible** for any misuse, illegal tracking, or violations of privacy caused by this script.
+> * Users are fully responsible for complying with local laws, data regulations, and Instagram's Terms of Service. 
+> * Do not use this tool for harassment, stalking, or unauthorized surveillance. Use it responsibly!
+
