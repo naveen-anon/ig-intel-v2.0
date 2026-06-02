@@ -1,3 +1,8 @@
+[![Framework](https://img.shields.io/badge/Framework-FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
+[![Styling](https://img.shields.io/badge/UI-Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
+[![Environment](https://img.shields.io/badge/Environment-Termux-A4C639?style=for-the-badge&logo=android&logoColor=white)](https://termux.dev)
+
+
 # 🚀 IG-Intel V2 - Live Web Monitoring OSINT Dashboard
 
 An advanced, stealthy, and lightweight Instagram OSINT (Open Source Intelligence) monitoring engine. Equipped with a high-performance **FastAPI** backend, automated **APScheduler** tracking loops, and a stunning, responsive dark-themed **Tailwind CSS Web Dashboard**. 
