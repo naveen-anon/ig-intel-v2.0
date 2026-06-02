@@ -46,10 +46,15 @@ ig-intel-v2/
 ### 🛠️ Installation & Deployment
 **Follow these commands inside your local environment (Termux, Linux, or PC) to fire up the system:**
 
-*1. Clone the Workspace*
+**1. Clone the Workspace**
 
 ```bash
 git clone https://github.com/naveen-anon/ig-intel-v2.0.git
 cd ig-intel-v2.0
 ```
+**2. Install Core Dependencies**
+Ensure you have Python 3 installed. Run the following requirement installation pip matrix:
 
+```bash
+pip install -r requirements.txt
+```
