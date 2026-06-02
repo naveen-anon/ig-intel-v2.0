@@ -27,10 +27,10 @@ def get_db():
     finally:
         db.close()
 
-# FRONTEND UI ROUTE: Serves the web dashboard
+# FRONTEND UI ROUTE: Serves the web dashboard (Fixed Jinja2 Syntax for Python 3.13)
 @app.get("/", response_class=HTMLResponse)
 async def read_dashboard(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request})
+    return templates.TemplateResponse(request, "index.html")
 
 # API ROUTE: Returns list of monitored targets to UI
 @app.get("/monitor/list")
@@ -62,4 +62,3 @@ def stop_monitoring(username: str, db: Session = Depends(get_db)):
     target.is_active = False
     db.commit()
     return {"message": f"Live monitoring stopped for @{username}."}
-  
