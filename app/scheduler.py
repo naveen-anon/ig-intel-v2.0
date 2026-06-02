@@ -1,28 +1,60 @@
-import random
+import urllib.request
+import json
+import re
 from apscheduler.schedulers.background import BackgroundScheduler
 from app.database.postgres import SessionLocal, MonitoredTarget
 from datetime import datetime
+
+def fetch_real_instagram_followers(username):
+    """Bina login ke public mirror se live follower count nikalne ka tareeka"""
+    try:
+        # Instagram public viewer mirror URL
+        url = f"https://imginn.com/p/{username}/"
+        
+        req = urllib.request.Request(
+            url, 
+            headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'}
+        )
+        
+        with urllib.request.urlopen(req, timeout=10) as response:
+            html = response.read().decode('utf-8')
+            
+        # HTML ke andar se followers count nikalne ke liye Regex Matching
+        # Note: Agar third-party website ka UI badalta hai, toh regex update karna pad sakta hai
+        match = re.search(r'href="/p/[^"]+/followers/">\s*<span>([\d,k.m]+)</span>', html, re.IGNORECASE)
+        
+        if match:
+            clean_num = match.group(1).replace(',', '').lower()
+            if 'k' in clean_num:
+                return int(float(clean_num.replace('k', '')) * 1000)
+            elif 'm' in clean_num:
+                return int(float(clean_num.replace('m', '')) * 1000000)
+            return int(clean_num)
+            
+    except Exception as e:
+        print(f"[⚠️ Scraper Warning] Could not fetch live data for @{username}: {str(e)}")
+    return None
 
 def live_monitoring_job():
     db = SessionLocal()
     try:
         active_targets = db.query(MonitoredTarget).filter(MonitoredTarget.is_active == True).all()
         if not active_targets:
-            print("[💤 Scheduler] No active targets to monitor right now.")
             return
 
-        print(f"\n[🔄 Loop Triggered - {datetime.now().strftime('%H:%M:%S')}] Executing target scan...")
+        print(f"\n[📡 LIVE OSINT SCAN - {datetime.now().strftime('%H:%M:%S')}] Connecting to Instagram Network...")
+        
         for target in active_targets:
-            # --- TESTING ENGINE EXECUTION PLACEHOLDER ---
-            # Jab aap scraper jodenge, toh target.follower_count_cache mein live scraper ka data aayega.
-            # Abhi execution check karne ke liye hum random number generate kar rahe hain.
-            if target.follower_count_cache == 0:
-                target.follower_count_cache = random.randint(1000, 5000)
+            # SIMULATOR KHATAM -> REAL SCRAPER START
+            live_followers = fetch_real_instagram_followers(target.username)
+            
+            if live_followers is not None:
+                target.follower_count_cache = live_followers
+                print(f"[🎯 REAL FETCH SUCCESS] @{target.username} -> {live_followers} Followers")
             else:
-                target.follower_count_cache += random.randint(-5, 15) # Live increase/decrease simulation
+                print(f"[❌ Fetch Failed] Using last cached value for @{target.username}")
                 
             target.last_checked = datetime.utcnow()
-            print(f"[🔥 LIVE EXECUTE] Target @{target.username} updated! Followers: {target.follower_count_cache}")
             
         db.commit()
     except Exception as e:
@@ -33,7 +65,8 @@ def live_monitoring_job():
 
 def start_scheduler():
     scheduler = BackgroundScheduler()
-    # Testing ke liye isko 10 seconds kar dete hain taaki jaldi-jaldi run ho (Production mein isko badal sakte hain)
-    scheduler.add_job(live_monitoring_job, 'interval', seconds=10, id='ig_tracker_job', replace_existing=True)
+    # Real scraping mein baar-baar jaldi request bhejne se IP block ho sakti hai
+    # Isliye real data ke liye interval ko 5 se 15 minute rakhna sahi hota hai
+    scheduler.add_job(live_monitoring_job, 'interval', minutes=10, id='ig_tracker_job', replace_existing=True)
     scheduler.start()
-    print("⏱️ APScheduler Core Engine Active. Running execution cycles every 10 seconds for debugging.")
+    print("⏱️ APScheduler Core Engine Active. Real OSINT scanning loops set to 10 minutes.")
