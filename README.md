@@ -64,3 +64,25 @@ pip install -r requirements.txt
 ```bash
 python3 run.py
 ```
+
+---
+
+## 🌐 How to Access the App
+
+Once the console logs state `🚀 IG-Intel V2 System Engine Online & Monitoring Live...`, open up your web browser and navigate to:
+
+* 💻 **Web Dashboard UI:** [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
+* 🛠️ **Interactive Swagger API Docs:** [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
+
+---
+
+## 📡 API Architecture Endpoints
+
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| **GET** | `/` | Serves the web-based Tailwind control dashboard. |
+| **GET** | `/monitor/list` | Pulls all target metrics records from the internal database. |
+| **POST**| `/monitor/add/{username}` | Deploys a new background surveillance tracker onto a profile. |
+| **POST**| `/monitor/stop/{username}` | Halts active tracking loops for a specified target profile. |
+
+---
