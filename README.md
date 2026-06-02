@@ -95,7 +95,7 @@ Once the console logs state `🚀 IG-Intel V2 System Engine Online & Monitoring 
 | Field | Detail |
 | :--- | :--- |
 | **Developer Name** | Naveen Khatri |
-| **Instagram** | [@coding_with_naveen](https://instagram.com/coding_with_naveen) |
+| **Instagram** | [@coding_with_naveen_](https://instagram.com/coding_with_naveen_) |
 | **GitHub Profile** | [@naveen-anon](https://github.com/naveen-anon) |
 | **Repository Link** | [ig-intel-v2.0](https://github.com/naveen-anon/ig-intel-v2.0.git) |
 
