@@ -1,18 +1,14 @@
 import os
-from pydantic_settings import BaseSettings
 
-class Settings(BaseSettings):
-    # Defaulting to local SQLite for Termux/Android compatibility
+class Settings:
     DATABASE_URL: str = os.getenv("DATABASE_URL", "sqlite:///./ig_intel.db")
     
-    NEO4J_URI: str = os.getenv("NEO4J_URI", "bolt://localhost:7687")
-    NEO4J_USER: str = os.getenv("NEO4J_USER", "neo4j")
-    NEO4J_PASSWORD: str = os.getenv("NEO4J_PASSWORD", "password")
+    # Instagram Internal GraphQL Meta (Inspect Element se nikaali hui values)
+    # Note: Apne dummy account ki cookies yahan daalein
+    INSTA_COOKIE: str = "sessionid=YOUR_DUMMY_SESSION_ID_HERE; csrftoken=XYZ;"
+    INSTA_APP_ID: str = "936619743392459" # Standard Instagram Web App ID
     
-    TELEGRAM_BOT_TOKEN: str = os.getenv("TELEGRAM_BOT_TOKEN", "YOUR_BOT_TOKEN")
-    TELEGRAM_CHAT_ID: str = os.getenv("TELEGRAM_CHAT_ID", "YOUR_CHAT_ID")
-    
-    MONITOR_INTERVAL_MINUTES: int = 15
+    # Target profile query hash (Instagram web par user info ke liye fixed hota hai)
+    INSTA_QUERY_HASH: str = "69cba7abb54c1cd62241b29c550411d3" 
 
 settings = Settings()
-
